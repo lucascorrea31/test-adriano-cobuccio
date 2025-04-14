@@ -6,8 +6,8 @@ Teste técnico para a vaga de desenvolvedor PHP no Grupo Adriano Cobuccio.
 
 ## Tecnologias
 
--   PHP 8.4
--   Laravel 10
+-   PHP 8.2
+-   Laravel 12
 -   SQLite
 -   Valet
 
