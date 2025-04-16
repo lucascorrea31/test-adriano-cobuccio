@@ -4,8 +4,8 @@ namespace Tests\Unit\app\Models;
 
 use App\Models\User;
 use App\Models\Wallet;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class UserTest extends TestCase
 {

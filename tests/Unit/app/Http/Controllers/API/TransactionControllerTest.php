@@ -4,9 +4,7 @@ namespace Tests\Unit\App\Http\Controllers\API;
 
 use App\Http\Controllers\API\TransactionController;
 use App\Http\Requests\TransactionRequest;
-use App\Models\Transaction;
 use App\Models\User;
-use App\Models\Wallet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -16,6 +14,7 @@ class TransactionControllerTest extends TestCase
 
     /** @var User */
     private $user;
+
     /** @var TransactionController */
     private $controller;
 
@@ -23,7 +22,7 @@ class TransactionControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->controller = new TransactionController();
+        $this->controller = new TransactionController;
 
         /** @var User $user */
         $this->user = User::factory()->create();
@@ -34,7 +33,7 @@ class TransactionControllerTest extends TestCase
     {
         $amount = 100;
         $request = new TransactionRequest([
-            'amount' => $amount
+            'amount' => $amount,
         ]);
 
         $response = $this->controller->deposit($request);
@@ -47,11 +46,11 @@ class TransactionControllerTest extends TestCase
         $this->assertDatabaseHas('transactions', [
             'user_id' => $this->user->id,
             'value' => $amount,
-            'type' => 'deposit'
+            'type' => 'deposit',
         ]);
         $this->assertDatabaseHas('wallets', [
             'user_id' => $this->user->id,
-            'amount' => $amount
+            'amount' => $amount,
         ]);
         $this->assertEquals($amount, $this->user->wallet->amount);
     }
@@ -63,7 +62,7 @@ class TransactionControllerTest extends TestCase
         $this->user->wallet->save();
 
         $request = new TransactionRequest([
-            'amount' => $amount
+            'amount' => $amount,
         ]);
 
         $response = $this->controller->withdraw($request);
@@ -76,11 +75,11 @@ class TransactionControllerTest extends TestCase
         $this->assertDatabaseHas('transactions', [
             'user_id' => $this->user->id,
             'value' => $amount,
-            'type' => 'withdrawal'
+            'type' => 'withdrawal',
         ]);
         $this->assertDatabaseHas('wallets', [
             'user_id' => $this->user->id,
-            'amount' => 0
+            'amount' => 0,
         ]);
         $this->assertEquals(0, $this->user->wallet->amount);
     }
@@ -97,7 +96,7 @@ class TransactionControllerTest extends TestCase
 
         $request = new TransactionRequest([
             'amount' => $amount,
-            'receiver_id' => $receiver->id
+            'receiver_id' => $receiver->id,
         ]);
 
         $response = $this->controller->transfer($request);

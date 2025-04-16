@@ -22,10 +22,10 @@ class Wallet extends Model
 
     public function hasFunds($amount)
     {
-        if (!$this->amount || $this->amount <= 0) {
+        if (! $this->amount || $this->amount <= 0) {
             return false;
         }
 
-        return !$amount || $this->amount >= $amount;
+        return ! $amount || $this->amount >= $amount;
     }
 }

@@ -41,7 +41,7 @@ class TransactionController extends Controller
 
         $amount = $request->input('amount');
 
-        if (!$wallet->hasFunds($amount)) {
+        if (! $wallet->hasFunds($amount)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Insufficient funds.',
@@ -80,7 +80,7 @@ class TransactionController extends Controller
             ], 400);
         }
 
-        if (!$wallet->hasFunds($amount)) {
+        if (! $wallet->hasFunds($amount)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Insufficient funds.',
@@ -112,30 +112,30 @@ class TransactionController extends Controller
 
     public function revokeTransaction(Request $request)
     {
-        if (!$request->has('transaction_id')) {
+        if (! $request->has('transaction_id')) {
             return response()->json([
                 'success' => false,
-                'message' => 'Transaction ID is required.'
+                'message' => 'Transaction ID is required.',
             ], 400);
         }
 
         /** @var Transaction $transaction */
         $transaction = Transaction::find($request->input('transaction_id'));
 
-        if (!$transaction) {
+        if (! $transaction) {
             return response()->json([
                 'success' => false,
-                'message' => 'Transaction not found or already revoked.'
+                'message' => 'Transaction not found or already revoked.',
             ], 404);
         }
 
         $user = $transaction->user;
         $wallet = $user->wallet;
 
-        if (!$transaction->isLastTransaction()) {
+        if (! $transaction->isLastTransaction()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Cannot revoke this transaction.'
+                'message' => 'Cannot revoke this transaction.',
             ], 400);
         }
 
@@ -146,10 +146,10 @@ class TransactionController extends Controller
         } elseif ($transaction->isTransfer()) {
             $receiver = User::findOrFail($transaction->receiver_id);
 
-            if (!$receiver->wallet->hasFunds($transaction->value)) {
+            if (! $receiver->wallet->hasFunds($transaction->value)) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Transaction cannot be revoked due the receiver.'
+                    'message' => 'Transaction cannot be revoked due the receiver.',
                 ], 400);
             }
 
