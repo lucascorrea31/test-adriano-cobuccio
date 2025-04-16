@@ -56,11 +56,11 @@ class AuthController extends Controller
         ]);
     }
 
-    public function profile(Request $request)
+    public function user(Request $request)
     {
         return response()->json([
             'success' => true,
-            'user' => $request->user(),
+            'user' => $request->user()->load('wallet'),
         ]);
     }
 
