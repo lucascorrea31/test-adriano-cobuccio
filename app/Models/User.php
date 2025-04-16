@@ -46,4 +46,27 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::created(function ($user) {
+            $user->wallet()->create([
+                'amount' => 0,
+            ]);
+        });
+        static::deleting(function ($user) {
+            $user->wallet()->delete();
+        });
+    }
 }
