@@ -41,7 +41,7 @@ class TransactionController extends Controller
 
         $amount = $request->input('amount');
 
-        if ($wallet->hasFunds($amount)) {
+        if (!$wallet->hasFunds($amount)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Insufficient funds.',
@@ -80,7 +80,7 @@ class TransactionController extends Controller
             ], 400);
         }
 
-        if ($wallet->hasFunds($amount)) {
+        if (!$wallet->hasFunds($amount)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Insufficient funds.',
